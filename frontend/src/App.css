@@ -108,7 +108,7 @@ body {
 
 /* ==================== MAIN CONTENT ==================== */
 .main-content {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -116,7 +116,9 @@ body {
 /* ==================== NEWS LIST STYLES ==================== */
 .news-list {
   display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  justify-items: center;
 }
 
 /* ==================== NEWS CARD STYLES ==================== */
@@ -241,6 +243,7 @@ body {
   }
 
   .news-list {
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
   }
 }
@@ -252,6 +255,11 @@ body {
 
   .subtitle {
     font-size: 14px;
+  }
+
+  .news-list {
+    grid-template-columns: 1fr;
+    gap: 15px;
   }
 
   .news-image {
