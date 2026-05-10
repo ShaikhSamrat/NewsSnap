@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import SearchBar from '../components/SearchBar';
 import NewsList from '../components/NewsList';
 import { getTopNews, searchNews } from '../api/api';
@@ -9,10 +9,14 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
+  const hasLoadedTopNews = useRef(false);
 
   // Fetch top news when page loads
   useEffect(() => {
-    fetchTopNews();
+    if (!hasLoadedTopNews.current) {
+      hasLoadedTopNews.current = true;
+      fetchTopNews();
+    }
   }, []);
 
   // Function to fetch top news - HOME FEED
