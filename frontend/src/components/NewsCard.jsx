@@ -1,9 +1,24 @@
+import { useState } from 'react';
+
 // NewsCard Component - Single news article card
 export default function NewsCard({ article }) {
+  const [showImage, setShowImage] = useState(true);
+
+  const handleImageError = () => {
+    setShowImage(false);
+  };
+
   return (
     <div className="news-card">
-      {article.image && (
-        <img src={article.image} alt={article.title} className="news-image" />
+      {article.image && showImage ? (
+        <img
+          src={article.image}
+          alt={article.title}
+          className="news-image"
+          onError={handleImageError}
+        />
+      ) : (
+        <div className="image-placeholder">No image available</div>
       )}
       <div className="news-content">
         <h3 className="news-title">{article.title}</h3>
