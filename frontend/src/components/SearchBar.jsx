@@ -5,7 +5,7 @@ export default function SearchBar({ onSearch }) {
     
     if (query) {
       onSearch(query);
-      e.target.reset(); // Clear input after search
+      e.target.reset();        // Clear input after search
     }
   };
 
