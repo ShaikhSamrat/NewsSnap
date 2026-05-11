@@ -55,6 +55,7 @@ export default function Saved() {
                 <NewsCard 
                   article={bookmark} 
                   onBookmarkToggle={fetchBookmarks}
+                  showBookmarkIcon={false}     // ← Hide bookmark icon here
                 />
                 <button 
                   onClick={() => handleDelete(bookmark._id)}

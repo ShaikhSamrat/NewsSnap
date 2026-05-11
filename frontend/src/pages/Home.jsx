@@ -2,9 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import SearchBar from '../components/SearchBar';
 import NewsList from '../components/NewsList';
 import { getTopNews, searchNews } from '../api/api';
-import { Link } from 'react-router-dom'; // We'll add routing next
 
-// Home Page Component
 export default function Home() {
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
