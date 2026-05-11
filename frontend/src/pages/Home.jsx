@@ -1,26 +1,31 @@
 import { useState, useEffect, useRef } from 'react';
-import SearchBar from '../components/SearchBar';
 import NewsList from '../components/NewsList';
 import { getTopNews, searchNews } from '../api/api';
 
-export default function Home() {
+export default function Home({ searchQuery }) {
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [isSearching, setIsSearching] = useState(false);
   const hasLoadedTopNews = useRef(false);
 
+  // Main effect to handle search or show top news
   useEffect(() => {
-    if (!hasLoadedTopNews.current) {
-      hasLoadedTopNews.current = true;
-      fetchTopNews();
+    if (searchQuery?.trim()) {
+      // Search mode
+      handleSearch(searchQuery);
+      hasLoadedTopNews.current = false;
+    } else {
+      // Top news mode
+      if (!hasLoadedTopNews.current) {
+        hasLoadedTopNews.current = true;
+        fetchTopNews();
+      }
     }
-  }, []);
+  }, [searchQuery]);
 
   const fetchTopNews = async () => {
     setIsLoading(true);
     setError(null);
-    setIsSearching(false);
 
     try {
       const data = await getTopNews();
@@ -36,7 +41,6 @@ export default function Home() {
   const handleSearch = async (query) => {
     setIsLoading(true);
     setError(null);
-    setIsSearching(true);
 
     try {
       const data = await searchNews(query);
@@ -49,26 +53,12 @@ export default function Home() {
     }
   };
 
-  const handleBackToHome = () => {
-    fetchTopNews();
-  };
-
   return (
     <div className="home">
       <header className="header">
         <h1 className="title">NewsSnap</h1>
         <p className="subtitle">Stay Updated with Latest News</p>
       </header>
-
-      <SearchBar onSearch={handleSearch} />
-
-      {isSearching && (
-        <div className="search-info">
-          <button onClick={handleBackToHome} className="back-button">
-            ← Back to Home Feed
-          </button>
-        </div>
-      )}
 
       <main className="main-content">
         <NewsList

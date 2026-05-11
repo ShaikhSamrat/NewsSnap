@@ -1,4 +1,3 @@
-// SearchBar Component - Simple search bar at the top
 export default function SearchBar({ onSearch }) {
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -6,22 +5,21 @@ export default function SearchBar({ onSearch }) {
     
     if (query) {
       onSearch(query);
+      e.target.reset(); // Clear input after search
     }
   };
 
   return (
-    <div className="search-bar">
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="search"
-          placeholder="Search for news..."
-          className="search-input"
-        />
-        <button type="submit" className="search-button">
-          Search
-        </button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit} className="search-bar-form">
+      <input
+        type="text"
+        name="search"
+        placeholder="Search for news..."
+        className="search-input"
+      />
+      <button type="submit" className="search-button">
+        Search
+      </button>
+    </form>
   );
 }

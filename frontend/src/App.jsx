@@ -1,33 +1,34 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Saved from './pages/Saved';
-import { FaBookmark } from 'react-icons/fa';
+import Navbar from './components/Navbar';
+import { useState } from 'react';
 
 function App() {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  const clearSearch = () => {
+    setSearchQuery('');   // This will trigger reset in Home
+  };
+
   return (
     <Router>
       <div className="app">
-        {/* Simple Navbar */}
-        <nav style={{
-          background: '#667eea',
-          padding: '10px 20px',
-          color: 'white',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}>
-          <Link to="/" style={{ color: 'white', textDecoration: 'none', fontSize: '24px', fontWeight: 'bold' }}>
-            NewsSnap
-          </Link>
-          
-          <Link to="/saved" style={{ color: 'white', display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
-            <FaBookmark /> Saved
-          </Link>
-        </nav>
+        <Navbar 
+          onSearch={handleSearch} 
+          clearSearch={clearSearch} 
+        />
 
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route 
+            path="/" 
+            element={<Home searchQuery={searchQuery} />} 
+          />
           <Route path="/saved" element={<Saved />} />
         </Routes>
       </div>
