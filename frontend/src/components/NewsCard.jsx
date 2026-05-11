@@ -1,14 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import axios from 'axios';
 
 export default function NewsCard({ 
   article, 
   onBookmarkToggle, 
-  showBookmarkIcon = true   // New prop - default is true
+  showBookmarkIcon = true 
 }) {
   const [showImage, setShowImage] = useState(true);
   const [isBookmarked, setIsBookmarked] = useState(false);
+
+  // Check if this article is already bookmarked
+  useEffect(() => {
+    const checkIfBookmarked = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/news/bookmarks');
+        const bookmarks = res.data;
+        
+        const alreadySaved = bookmarks.some(bookmark => 
+          bookmark.url === article.url
+        );
+        
+        setIsBookmarked(alreadySaved);
+      } catch (error) {
+        console.error('Error checking bookmarks:', error);
+      }
+    };
+
+    if (article?.url) {
+      checkIfBookmarked();
+    }
+  }, [article?.url]);
 
   const handleImageError = () => {
     setShowImage(false);
@@ -27,12 +49,14 @@ export default function NewsCard({
           source: article.source,
           publishedAt: article.publishedAt
         });
+        
         setIsBookmarked(true);
         alert('✅ Saved to bookmarks!');
         if (onBookmarkToggle) onBookmarkToggle();
       }
     } catch (error) {
       if (error.response?.status === 400) {
+        setIsBookmarked(true); // Already bookmarked
         alert('Already bookmarked!');
       } else {
         console.error('Error bookmarking:', error);
@@ -62,7 +86,6 @@ export default function NewsCard({
         }}>
           <h3 className="news-title">{article.title}</h3>
           
-          {/* Only show bookmark icon on Home page */}
           {showBookmarkIcon && (
             <button 
               onClick={toggleBookmark}
@@ -70,10 +93,10 @@ export default function NewsCard({
                 background: 'none', 
                 border: 'none', 
                 cursor: 'pointer', 
-                fontSize: '1.3rem',
+                fontSize: '1.4rem',
                 color: isBookmarked ? '#ffd700' : '#667eea'
               }}
-              title="Bookmark"
+              title={isBookmarked ? "Already Saved" : "Bookmark"}
             >
               {isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
             </button>

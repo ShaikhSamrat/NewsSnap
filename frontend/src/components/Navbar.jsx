@@ -20,7 +20,7 @@ export default function Navbar({ onSearch, clearSearch }) {
   return (
     <nav className="navbar">
       <div className="nav-container">
-        {/* Logo with Home Icon - Acts as single button */}
+        {/* Logo with Home Icon */}
         <Link 
           to="/" 
           className="logo"
@@ -31,10 +31,12 @@ export default function Navbar({ onSearch, clearSearch }) {
           NewsSnap
         </Link>
 
+        {/* Wider Search Bar */}
         <div className="nav-search">
           <SearchBar onSearch={handleSearch} />
         </div>
 
+        {/* Saved at Right Corner */}
         <Link to="/saved" className="saved-link">
           <FaBookmark style={{ marginRight: '8px' }} />
           Saved

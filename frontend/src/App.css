@@ -84,28 +84,6 @@ body {
   background-color: #764ba2;
 }
 
-/* ==================== SEARCH INFO ==================== */
-.search-info {
-  padding: 10px 20px;
-  background-color: #f0f0f0;
-  text-align: center;
-}
-
-.back-button {
-  padding: 10px 20px;
-  background-color: #667eea;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.back-button:hover {
-  background-color: #764ba2;
-}
-
 /* ==================== MAIN CONTENT ==================== */
 .main-content {
   max-width: 1200px;
@@ -233,7 +211,102 @@ body {
 .no-results {
   color: #999;
 }
+/* ==================== NAVBAR STYLES ==================== */
+.navbar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
+.nav-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.logo:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.logo:active {
+  transform: scale(0.97);
+}
+
+/* Search Bar - Longer & Responsive */
+.nav-search {
+  flex: 1;
+  width: 100%;
+  max-width: clamp(28rem, 58vw, 58rem);   /* Longer + Smart Responsive */
+  min-width: 24rem;
+}
+
+.nav-search form {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.nav-search .search-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.nav-search .search-button {
+  padding: 12px 32px;
+  background-color: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Saved Link - Right Corner */
+.saved-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.saved-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
 /* ==================== MOBILE RESPONSIVE ==================== */
 @media (max-width: 768px) {
   .title {
@@ -244,12 +317,19 @@ body {
     font-size: 16px;
   }
 
-  .search-bar form {
+  .nav-container {
     flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  .nav-search {
+    width: 100%;
+    max-width: none;
   }
 
-  .search-button {
-    width: 100%;
+  .logo {
+    margin: 0 auto;
   }
 
   .news-image {
@@ -304,89 +384,4 @@ body {
     padding: 8px 16px;
     font-size: 13px;
   }
-}
-
-/* ==================== NAVBAR STYLES ==================== */
-.navbar {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.nav-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 15px 20px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.logo {
-  font-size: 28px;
-  font-weight: bold;
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.nav-search {
-  flex: 1;
-  max-width: 500px;
-}
-
-.saved-link {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  padding: 8px 16px;
-  border-radius: 6px;
-  transition: background-color 0.3s;
-}
-
-.saved-link:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-/* Make search bar responsive in navbar */
-@media (max-width: 768px) {
-  .nav-container {
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .nav-search {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-/* ==================== LOGO STYLES ==================== */
-.logo {
-  font-size: 28px;
-  font-weight: bold;
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-  padding: 8px 16px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  user-select: none;
-  display: flex;
-  align-items: center;
-}
-
-.logo:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  transform: scale(1.05);
-}
-
-.logo:active {
-  transform: scale(0.97);
 }
