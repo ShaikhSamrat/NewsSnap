@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import axios from 'axios';
 
+const DEFAULT_IMAGE = '/images/default-news.jpg'; // Public folder path
+
 export default function NewsCard({ 
   article, 
   onBookmarkToggle, 
@@ -56,7 +58,7 @@ export default function NewsCard({
       }
     } catch (error) {
       if (error.response?.status === 400) {
-        setIsBookmarked(true); // Already bookmarked
+        setIsBookmarked(true);
         alert('Already bookmarked!');
       } else {
         console.error('Error bookmarking:', error);
@@ -65,18 +67,25 @@ export default function NewsCard({
     }
   };
 
+  // Limit description to ~6-7 lines
+  const truncateDescription = (text) => {
+    if (!text) return '';
+    const maxLength = 195;
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength).trim() + '...';
+  };
+
+  // Use default image if no image from API
+  const imageSrc = article.image && showImage ? article.image : DEFAULT_IMAGE;
+
   return (
     <div className="news-card">
-      {article.image && showImage ? (
-        <img
-          src={article.image}
-          alt={article.title}
-          className="news-image"
-          onError={handleImageError}
-        />
-      ) : (
-        <div className="image-placeholder">No image available</div>
-      )}
+      <img
+        src={imageSrc}
+        alt={article.title}
+        className="news-image"
+        onError={handleImageError}
+      />
       
       <div className="news-content">
         <div style={{ 
@@ -104,7 +113,10 @@ export default function NewsCard({
         </div>
 
         <p className="news-source">Source: {article.source?.name}</p>
-        <p className="news-description">{article.description}</p>
+        
+        <p className="news-description">
+          {truncateDescription(article.description)}
+        </p>
         
         <a
           href={article.url}
