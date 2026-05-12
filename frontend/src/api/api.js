@@ -1,8 +1,7 @@
+// frontend/src/api/api.js
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
-const API_BASE_URL = 'http://localhost:5000/api';
-
-// Get top news
 export const getTopNews = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/news/top`);
@@ -13,7 +12,6 @@ export const getTopNews = async () => {
   }
 };
 
-// Search for news
 export const searchNews = async (query) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/news/search`, {

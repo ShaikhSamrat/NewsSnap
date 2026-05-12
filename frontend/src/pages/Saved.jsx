@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import NewsCard from '../components/NewsCard';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
 export default function Saved() {
   const [bookmarks, setBookmarks] = useState([]);
@@ -10,7 +11,7 @@ export default function Saved() {
   const fetchBookmarks = async () => {
     try {
       setIsLoading(true);
-      const res = await axios.get('http://localhost:5000/api/news/bookmarks');
+      const res = await axios.get(`${API_BASE_URL}/news/bookmarks`);
       setBookmarks(res.data);
     } catch (err) {
       setError('Failed to load bookmarks');
@@ -28,7 +29,7 @@ export default function Saved() {
     if (!window.confirm('Remove this bookmark?')) return;
     
     try {
-      await axios.delete(`http://localhost:5000/api/news/bookmarks/${id}`);
+      await axios.delete(`${API_BASE_URL}/news/bookmarks/${id}`);
       setBookmarks(prev => prev.filter(b => b._id !== id));
     } catch (err) {
       alert('Failed to delete bookmark');
@@ -55,7 +56,7 @@ export default function Saved() {
                 <NewsCard 
                   article={bookmark} 
                   onBookmarkToggle={fetchBookmarks}
-                  showBookmarkIcon={false}     // ← Hide bookmark icon here
+                  showBookmarkIcon={false}
                 />
                 <button 
                   onClick={() => handleDelete(bookmark._id)}

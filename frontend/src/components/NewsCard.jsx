@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
-const DEFAULT_IMAGE = '/images/default-news.jpg'; // Public folder path
+const DEFAULT_IMAGE = '/images/default-news.jpg';
 
 export default function NewsCard({ 
   article, 
@@ -12,11 +13,10 @@ export default function NewsCard({
   const [showImage, setShowImage] = useState(true);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
-  // Check if this article is already bookmarked
   useEffect(() => {
     const checkIfBookmarked = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/news/bookmarks');
+        const res = await axios.get(`${API_BASE_URL}/news/bookmarks`);
         const bookmarks = res.data;
         
         const alreadySaved = bookmarks.some(bookmark => 
@@ -43,7 +43,7 @@ export default function NewsCard({
       if (isBookmarked) {
         alert("Use Saved page to remove bookmark");
       } else {
-        await axios.post('http://localhost:5000/api/news/bookmarks', {
+        await axios.post(`${API_BASE_URL}/news/bookmarks`, {
           title: article.title,
           description: article.description,
           url: article.url,
@@ -67,7 +67,6 @@ export default function NewsCard({
     }
   };
 
-  // Limit description to ~6-7 lines
   const truncateDescription = (text) => {
     if (!text) return '';
     const maxLength = 195;
@@ -75,7 +74,6 @@ export default function NewsCard({
     return text.substring(0, maxLength).trim() + '...';
   };
 
-  // Use default image if no image from API
   const imageSrc = article.image && showImage ? article.image : DEFAULT_IMAGE;
 
   return (
