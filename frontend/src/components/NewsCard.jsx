@@ -18,11 +18,7 @@ export default function NewsCard({
       try {
         const res = await axios.get(`${API_BASE_URL}/news/bookmarks`);
         const bookmarks = res.data;
-        
-        const alreadySaved = bookmarks.some(bookmark => 
-          bookmark.url === article.url
-        );
-        
+        const alreadySaved = bookmarks.some(bookmark => bookmark.url === article.url);
         setIsBookmarked(alreadySaved);
       } catch (error) {
         console.error('Error checking bookmarks:', error);
@@ -51,7 +47,6 @@ export default function NewsCard({
           source: article.source,
           publishedAt: article.publishedAt
         });
-        
         setIsBookmarked(true);
         alert('✅ Saved to bookmarks!');
         if (onBookmarkToggle) onBookmarkToggle();
@@ -78,44 +73,53 @@ export default function NewsCard({
 
   return (
     <div className="news-card">
-      <img
-        src={imageSrc}
-        alt={article.title}
-        className="news-image"
-        onError={handleImageError}
-      />
-      
+      <div style={{ position: 'relative' }}>
+        <img
+          src={imageSrc}
+          alt={article.title}
+          className="news-image"
+          onError={handleImageError}
+        />
+
+        {/* Bookmark badge — top-right corner of image, CNN style */}
+        {showBookmarkIcon && (
+          <button
+            onClick={toggleBookmark}
+            title={isBookmarked ? "Already Saved" : "Save article"}
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: '16px',
+              width: '32px',
+              height: '42px',
+              background: isBookmarked ? '#cc0000' : '#1c1c1c',
+              color: '#ffffff',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '14px',
+              /* ribbon/bookmark tab shape */
+              clipPath: 'polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%)',
+              transition: 'background 0.2s ease',
+              padding: 0,
+            }}
+          >
+            {isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
+          </button>
+        )}
+      </div>
+
       <div className="news-content">
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'flex-start' 
-        }}>
-          <h3 className="news-title">{article.title}</h3>
-          
-          {showBookmarkIcon && (
-            <button 
-              onClick={toggleBookmark}
-              style={{ 
-                background: 'none', 
-                border: 'none', 
-                cursor: 'pointer', 
-                fontSize: '1.4rem',
-                color: isBookmarked ? '#ffd700' : '#667eea'
-              }}
-              title={isBookmarked ? "Already Saved" : "Bookmark"}
-            >
-              {isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
-            </button>
-          )}
-        </div>
+        <h3 className="news-title">{article.title}</h3>
 
         <p className="news-source">Source: {article.source?.name}</p>
-        
+
         <p className="news-description">
           {truncateDescription(article.description)}
         </p>
-        
+
         <a
           href={article.url}
           target="_blank"

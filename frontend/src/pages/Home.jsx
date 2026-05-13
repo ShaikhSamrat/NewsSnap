@@ -2,20 +2,41 @@ import { useState, useEffect, useRef } from 'react';
 import NewsList from '../components/NewsList';
 import { getTopNews, searchNews } from '../api/api';
 
+// Remove duplicates by URL and by normalized title
+const deduplicate = (articles) => {
+  const seenUrls = new Set();
+  const seenTitles = new Set();
+
+  return articles.filter((article) => {
+    // Normalize title: lowercase, strip punctuation, compare first 80 chars
+    const normalizedTitle = article.title
+      ?.toLowerCase()
+      .replace(/[^a-z0-9\s]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .substring(0, 80);
+
+    if (seenUrls.has(article.url) || seenTitles.has(normalizedTitle)) {
+      return false;
+    }
+
+    seenUrls.add(article.url);
+    if (normalizedTitle) seenTitles.add(normalizedTitle);
+    return true;
+  });
+};
+
 export default function Home({ searchQuery }) {
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const hasLoadedTopNews = useRef(false);
 
-  // Main effect to handle search or show top news
   useEffect(() => {
     if (searchQuery?.trim()) {
-      // Search mode
       handleSearch(searchQuery);
       hasLoadedTopNews.current = false;
     } else {
-      // Top news mode
       if (!hasLoadedTopNews.current) {
         hasLoadedTopNews.current = true;
         fetchTopNews();
@@ -26,10 +47,9 @@ export default function Home({ searchQuery }) {
   const fetchTopNews = async () => {
     setIsLoading(true);
     setError(null);
-
     try {
       const data = await getTopNews();
-      setArticles(data.articles || []);
+      setArticles(deduplicate(data.articles || []));
     } catch (err) {
       setError('Failed to load news. Please try again later.');
       console.error('Error:', err);
@@ -41,10 +61,9 @@ export default function Home({ searchQuery }) {
   const handleSearch = async (query) => {
     setIsLoading(true);
     setError(null);
-
     try {
       const data = await searchNews(query);
-      setArticles(data.articles || []);
+      setArticles(deduplicate(data.articles || []));
     } catch (err) {
       setError('Failed to search news. Please try again later.');
       console.error('Error:', err);
