@@ -20,27 +20,33 @@ export default function Navbar({ onSearch, clearSearch }) {
   return (
     <nav className="navbar">
       <div className="nav-container">
-        {/* Logo with Home Icon */}
+        
+        {/* Logo - Shows text on large screens, icon only on mobile */}
         <Link 
           to="/" 
           className="logo"
           onClick={handleLogoClick}
           title="Go to Home"
         >
-          <FaHome style={{ marginRight: '10px', fontSize: '26px' }} />
-          NewsSnap
+          <FaHome style={{ marginRight: '8px', fontSize: '26px' }} />
+          <span>NewsSnap</span>
         </Link>
 
-        {/* Wider Search Bar */}
+        {/* Search Bar */}
         <div className="nav-search">
           <SearchBar onSearch={handleSearch} />
         </div>
 
-        {/* Saved at Right Corner */}
-        <Link to="/saved" className="saved-link">
-          <FaBookmark style={{ marginRight: '8px' }} />
-          Saved
+        {/* Saved - Shows text on large screens, icon only on mobile */}
+        <Link 
+          to="/saved" 
+          className="saved-link" 
+          title="Saved Bookmarks"
+        >
+          <FaBookmark style={{ fontSize: '24px' }} />
+          <span>Saved</span>
         </Link>
+
       </div>
     </nav>
   );
