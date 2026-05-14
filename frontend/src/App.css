@@ -60,11 +60,12 @@ body {
   height: 60px;
 }
 
+/* ✅ CHANGED: font-family → Playfair Display, removed uppercase, adjusted sizing */
 .logo {
-  font-family: var(--font-label);
-  font-size: 30px;
-  font-weight: 800;
-  letter-spacing: 1px;
+  font-family: var(--font-headline);
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
   color: var(--white);
   text-decoration: none;
   cursor: pointer;
@@ -72,7 +73,7 @@ body {
   align-items: center;
   gap: 8px;
   white-space: nowrap;
-  text-transform: uppercase;
+  text-transform: none;
   transition: color 0.2s ease;
 }
 
@@ -387,7 +388,7 @@ body {
   }
 
   .logo {
-    font-size: 24px;
+    font-size: 22px;
   }
 
   .logo span {
