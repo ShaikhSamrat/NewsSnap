@@ -21,9 +21,13 @@ npm install
 ## 2. Configure Environment
 
 Create `backend/.env`:
+
+```
 GNEWS_API_KEY=your_key_here
 PORT=5000
 MONGODB_URI=mongodb://localhost:27017/newssnap
+```
+
 ## 3. Run
 
 ```bash
