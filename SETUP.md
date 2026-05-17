@@ -1,86 +1,46 @@
-# NewsSnap - Quick Start Guide
+# Setup Guide
 
-## Step-by-Step Setup
+## Prerequisites
 
-### 1. Install Node.js
-Download from: https://nodejs.org/
-Choose the LTS version (recommended)
+- Node.js v14+
+- MongoDB (local or Atlas)
+- GNews API key → [gnews.io](https://gnews.io)
 
-### 2. Get API Key
-1. Visit: https://gnews.io
-2. Create a free account
-3. Get your API key from the dashboard
-
-### 3. Setup Backend
+## 1. Clone & Install
 
 ```bash
+# Backend
 cd backend
 npm install
-```
 
-Open `backend/.env` and replace:
-```
-GNEWS_API_KEY=your_actual_key_here
-```
-
-Run backend:
-```bash
-npm run dev
-```
-
-You should see: `Server is running on http://localhost:5000`
-
-### 4. Setup Frontend (new terminal)
-
-```bash
+# Frontend
 cd frontend
 npm install
-npm run dev
 ```
 
-You should see: `Port 5173` with the local URL
+## 2. Configure Environment
 
-### 5. Open Website
+Create `backend/.env`:
+GNEWS_API_KEY=your_key_here
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/newssnap
+## 3. Run
 
-Go to: http://localhost:5173
+```bash
+# Terminal 1 - Backend
+cd backend && npm run dev
+# → http://localhost:5000
 
-## Features to Test
-
-1. **Homepage**: Should show latest news automatically
-2. **Search**: Type a keyword and click Search
-3. **Back Button**: Click to return to homepage
-4. **Read More**: Click to open article in new tab
-5. **Mobile**: Resize browser to test responsive design
+# Terminal 2 - Frontend
+cd frontend && npm run dev
+# → http://localhost:5173
+```
 
 ## Common Issues
 
-### Port Already in Use
-- Backend: Change PORT in `.env`
-- Frontend: Vite will auto-increment port
-
-### No API Key
-- Error will show in browser console
-- Update `.env` with real key from gnews.io
-
-### CORS Error
-- Make sure backend is running first
-- Check that API URLs match in `frontend/src/api/api.js`
-
-## Build for Production
-
-### Backend
-No build needed, just run with Node.js
-
-### Frontend
-```bash
-cd frontend
-npm run build
-```
-
-Creates `dist/` folder for deployment
-
-## Stopping the Servers
-
-- Press `Ctrl + C` in terminal to stop
-
-Enjoy NewsSnap!
+| Problem | Fix |
+|---|---|
+| No news showing | Check GNEWS_API_KEY in `.env` |
+| MongoDB error | Make sure MongoDB is running locally |
+| CORS error | Ensure backend is running before frontend |
+| Port in use | Change `PORT` in `.env` |
